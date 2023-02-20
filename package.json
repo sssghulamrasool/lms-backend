@@ -1,0 +1,21 @@
+{
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "helmet": "^6.0.1",
+    "mongoose": "^6.9.2",
+    "morgan": "^1.10.0"
+  },
+  "name": "lms-backend",
+  "version": "1.0.0",
+  "description": "learning management system",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "author": "ghulam rasool",
+  "license": "ISC"
+}
