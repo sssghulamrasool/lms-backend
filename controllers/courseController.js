@@ -4,9 +4,19 @@ const { tryCatch } = require("../utils/tryCatch");
 
 exports.getAllCourse = tryCatch(async (req, res, next) => {
   const couses = await CourseModel.find()
-    .select
-    // "* title image payment_status language"
-    ();
+    .select({
+      course_content: 0,
+    })
+    .populate({
+      path: "instructor",
+      select: {
+        name: 1,
+        profile_image: 1,
+        ranks: 1,
+        _id: 0,
+      },
+    });
+
   return res.status(200).json({
     status: true,
     count: couses.length,
@@ -61,12 +71,15 @@ exports.createCourse = tryCatch(async (req, res, next) => {
     durations: durations,
     course_type: course_type,
     course_content: req.body.course,
+    instructor: req.body.instructor,
   };
 
   const creaeted = await CourseModel.create(course);
   return res.status(201).json({
     status: true,
-    couses: creaeted,
+    couses: {
+      id: creaeted._id,
+    },
   });
 });
 
@@ -89,7 +102,7 @@ exports.getSingleCourse = tryCatch(async (req, res, next) => {
   const { id } = req.params;
   const getCourse = await CourseModel.findOne({
     _id: id,
-  });
+  }).populate("instructor");
   if (!getCourse) {
     return next(new AppError(`This ID is not ${id}`, 404));
   }
