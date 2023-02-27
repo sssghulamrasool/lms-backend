@@ -1,7 +1,8 @@
 const CourseModel = require("../models/courseModel");
 const AppError = require("../utils/appError");
 const { tryCatch } = require("../utils/tryCatch");
-
+const multer = require("multer");
+exports.upload = multer({ dest: "public/images" }).single("feature-image");
 exports.getAllCourse = tryCatch(async (req, res, next) => {
   const couses = await CourseModel.find()
     .select({
@@ -51,35 +52,29 @@ exports.getAllCourse = tryCatch(async (req, res, next) => {
 //   });
 // });
 exports.createCourse = tryCatch(async (req, res, next) => {
-  const {
-    title,
-    payment_status,
-    language,
-    durations,
-    course_type,
-    instructor,
-  } = req.body;
+  // const { title, payment_status, language, durations, course_type } = req.body;
 
-  const course = {
-    title: title,
-    image: {
-      img_url: "Url",
-      img_id: "Demo",
-    },
-    payment_status: payment_status,
-    language: language,
-    durations: durations,
-    course_type: course_type,
-    course_content: req.body.course,
-    instructor: req.body.instructor,
-  };
+  // const course = {
+  //   title: title,
+  //   image: {
+  //     img_url: "Url",
+  //     img_id: "Demo",
+  //   },
+  //   payment_status: payment_status,
+  //   language: language,
+  //   durations: durations,
+  //   course_type: course_type,
+  //   course_content: req.body.course,
+  //   instructor: req.body.instructor,
+  // };
 
-  const creaeted = await CourseModel.create(course);
+  console.log(req.file);
+  // const creaeted = await CourseModel.create(course);
   return res.status(201).json({
     status: true,
-    couses: {
-      id: creaeted._id,
-    },
+    // couses: {
+    //   id: creaeted._id,
+    // },
   });
 });
 

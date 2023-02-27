@@ -6,9 +6,10 @@ const {
   createCourse,
   deleteCourse,
   getSingleCourse,
+  upload,
 } = require("../controllers/courseController");
 
-router.route("/").get(getAllCourse).post(createCourse);
+router.route("/").get(getAllCourse).post(upload, createCourse);
 // router.get("/", getAllCourse);
 // router.post("/", createCourse);
 // router.delete("/:id", deleteCourse);
