@@ -68,7 +68,7 @@ exports.createCourse = tryCatch(async (req, res, next) => {
   //   instructor: req.body.instructor,
   // };
 
-  console.log(req.file);
+  console.log(req);
   // const creaeted = await CourseModel.create(course);
   return res.status(201).json({
     status: true,

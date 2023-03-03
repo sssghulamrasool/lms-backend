@@ -48,9 +48,9 @@ const courseSchema = new mongoose.Schema(
         },
         lectures: [
           {
-            lec_url: String,
-            lec_desc: String,
-            lec_source: String,
+            _url: String,
+            _desc: String,
+            _source: String,
           },
         ],
       },

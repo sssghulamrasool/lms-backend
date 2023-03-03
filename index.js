@@ -6,6 +6,9 @@ const teacherRouters = require("./routes/teacherRoutes");
 const errorController = require("./controllers/errorController");
 const AppError = require("./utils/appError");
 const morgan = require("morgan");
+const cors = require("cors");
+const helmet = require("helmet");
+
 dotenv.config();
 require("./config/config.js");
 const cloudinary = require("cloudinary").v2;
@@ -22,11 +25,24 @@ cloudinary.config({
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(express.static("public"));
+app.use(cors());
+// const corsOptions = {
+//   origin: "*",
+//   credentials: true, //access-control-allow-credentials:true
+//   optionSuccessStatus: 200,
+// };
+// app.use(cors(corsOptions));
+app.use(helmet());
+
 // API ROUTING
 
 app.use("/api/courses", courseRouters);
 app.use("/api/teacher", teacherRouters);
 
+// app.use((req, res, next) => {
+//   res.setHeader("Access-Control-Allow-Origin", "*");
+//   next();
+// });
 app.all("*", (req, res, next) => {
   return next(new AppError(`Can't Find ${req.originalUrl}`, 500));
 });

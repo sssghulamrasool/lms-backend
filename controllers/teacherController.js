@@ -32,30 +32,30 @@ exports.addTeacher = tryCatch(async (req, res, next) => {
     password,
     confirmPassword,
     description,
-    education,
+    educations,
     experience,
     ranks,
     profile_image,
   } = req.body;
 
   // CHECKED IF TEACHER NOT ADD ANY VALUE'S
-  if (
-    !name ||
-    !email ||
-    !password ||
-    !confirmPassword ||
-    !description ||
-    !experience ||
-    !education ||
-    !profile_image
-  ) {
-    return next(
-      new AppError(
-        "Name, Email, Password, ConfrimPassword, Profile Image, Description, Experience Eduction THESE FIELDS ARE REQUIRED ",
-        400
-      )
-    );
-  }
+  // if (
+  //   !name ||
+  //   !email ||
+  //   !password ||
+  //   !confirmPassword ||
+  //   !description ||
+  //   !experience ||
+  //   !education
+  //   // !profile_image
+  // ) {
+  //   return next(
+  //     new AppError(
+  //       "Name, Email, Password, ConfrimPassword, Profile Image, Description, Experience Eduction THESE FIELDS ARE REQUIRED ",
+  //       400
+  //     )
+  //   );
+  // }
 
   // CHECKED IF TEACHER EMAIL IS ALREADY EXISTED OR NOT
   const findone = await TeacherModel.findOne({
@@ -79,13 +79,13 @@ exports.addTeacher = tryCatch(async (req, res, next) => {
   // if (!req.body.profile_image) {
   //   return next(new AppError("Please Upload Profile Image", 400));
   // }
-  let images;
-  await cloudinary.uploader.upload(req.body.profile_image).then((data) => {
-    images = {
-      link: data.url,
-      id: data.public_id,
-    };
-  });
+  // let images;
+  // await cloudinary.uploader.upload(req.body.profile_image).then((data) => {
+  //   images = {
+  //     link: data.url,
+  //     id: data.public_id,
+  //   };
+  // });
 
   //  FINLA CREATE ACCOUNT
   const course = await TeacherModel.create({
@@ -93,20 +93,21 @@ exports.addTeacher = tryCatch(async (req, res, next) => {
     email,
     password: hashPassword,
     confirmPassword: hashConfirmPassword,
-    profile_image: images,
+    profile_image: [],
     description,
     ranks,
-    education,
+    education: educations,
     experience,
   });
 
   return res.status(200).json({
     status: true,
-    teacher: {
-      id: course.id,
-      name: course.name,
-      email: course.email,
-    },
+    // teacher: {
+    //   id: course.id,
+    //   name: course.name,
+    //   email: course.email,
+    // },
+    // teacher: req.body,
   });
 });
 
