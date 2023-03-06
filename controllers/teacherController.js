@@ -9,9 +9,7 @@ exports.upload = multer({ dest: "public/images" });
 
 // GET ALL TEACHER'S ACCOUNTS
 exports.getTeachers = tryCatch(async (req, res, next) => {
-  const teachers = await TeacherModel.find().select(
-    "+password +confirmPassword"
-  );
+  const teachers = await TeacherModel.find().select("-education -experience");
 
   // {
   //    * : 1,

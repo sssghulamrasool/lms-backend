@@ -16,7 +16,7 @@ const userSchema = monoose.Schema({
   },
   confirmPassword: {
     type: String,
-    required: [true, "ConfirmPassword is required and must b same"],
+    required: [true, "ConfirmPassword is required"],
     default: false,
   },
 });

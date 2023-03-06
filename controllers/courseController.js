@@ -3,6 +3,7 @@ const AppError = require("../utils/appError");
 const { tryCatch } = require("../utils/tryCatch");
 const multer = require("multer");
 exports.upload = multer({ dest: "public/images" }).single("feature-image");
+const cloudinary = require("cloudinary").v2;
 exports.getAllCourse = tryCatch(async (req, res, next) => {
   const couses = await CourseModel.find()
     .select({
@@ -24,6 +25,7 @@ exports.getAllCourse = tryCatch(async (req, res, next) => {
     couses,
   });
 });
+
 // exports.createCourse = tryCatch(async (req, res, next) => {
 //   const {
 //     title,
@@ -52,29 +54,37 @@ exports.getAllCourse = tryCatch(async (req, res, next) => {
 //   });
 // });
 exports.createCourse = tryCatch(async (req, res, next) => {
-  // const { title, payment_status, language, durations, course_type } = req.body;
+  const {
+    title,
+    payment_status,
+    language,
+    durations,
+    course_type,
+    course_content,
+    instructor,
+  } = req.body;
 
-  // const course = {
-  //   title: title,
-  //   image: {
-  //     img_url: "Url",
-  //     img_id: "Demo",
-  //   },
-  //   payment_status: payment_status,
-  //   language: language,
-  //   durations: durations,
-  //   course_type: course_type,
-  //   course_content: req.body.course,
-  //   instructor: req.body.instructor,
-  // };
-
-  console.log(req);
-  // const creaeted = await CourseModel.create(course);
+  let image = { img_url: "", img_id: "" };
+  // await cloudinary.uploader.upload(req.body.image).then((result) => {
+  //   image.img_url = result.url;
+  //   image.img_id = result.public_id;
+  // });
+  const course = {
+    title: title,
+    image: image,
+    payment_status: payment_status,
+    language: language,
+    durations: durations,
+    course_type: course_type,
+    course_content: course_content,
+    instructor: instructor,
+  };
+  const created = await CourseModel.create(course);
   return res.status(201).json({
     status: true,
-    // couses: {
-    //   id: creaeted._id,
-    // },
+    couses: {
+      id: created._id,
+    },
   });
 });
 
